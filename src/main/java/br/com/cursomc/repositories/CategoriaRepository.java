@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import br.com.cursomc.domain.Categoria;
 
+/**
+ * Acesso as informações de categoria no BD
+ *
+ * @author Flavio Solci
+ *
+ */
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 

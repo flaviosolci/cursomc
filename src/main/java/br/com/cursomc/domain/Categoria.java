@@ -10,15 +10,24 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Classe modelo para Categorias.
+ * Tabela: CATEGORIA
+ *
+ * @author Flavio Solci
+ *
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Categoria {
 
+	/** ID da categoria */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	/** Nome da Categoria */
 	@NonNull
 	private String nome;
 
