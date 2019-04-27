@@ -11,8 +11,8 @@
 	<groupId>br.com.cursomc</groupId>
 	<artifactId>cursomc</artifactId>
 	<version>0.0.1</version>
-	<name>cursomc</name>
-	<description>Estudo de caso Java para curso de Moodelagem conceitual com UML</description>
+	<name>Curso Modelagem Conceitual</name>
+	<description>Estudo de caso Java para curso de Modelagem conceitual com UML</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -28,6 +28,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -71,4 +85,8 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<scm>
+		<url>https://github.com/flaviosolci/cursomc.git</url>
+	</scm>
+	<url>https://github.com/flaviosolci/cursomc.git</url>
 </project>
