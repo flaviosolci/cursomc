@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,33 +17,32 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Classe modelo para Categorias. Tabela: CATEGORIA
+ *
+ * Classe modelo de Estados (UF)
  *
  * @author Flavio Solci
  *
  */
-@Entity
 @Data
-@NoArgsConstructor
+@Entity
 @RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Categoria implements Serializable {
+public class Estado implements Serializable {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
-	/** ID da categoria */
+	/** Id do estado */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
-	/** Nome da Categoria */
+	/** Nome do estado. Ex: São Paulo */
 	@NonNull
 	private String nome;
-
-	/** Lista de produtos. Uma categoria pode ter varios produtos associados */
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	/** Lista de cidades desse estado */
+	@OneToMany(mappedBy = "estado")
+	private List<Cidade> cidades = new ArrayList<>();
 
 }

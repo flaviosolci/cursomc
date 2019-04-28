@@ -1,16 +1,13 @@
 package br.com.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,33 +16,34 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Classe modelo para Categorias. Tabela: CATEGORIA
+ *
+ * Classe modela das cidades
  *
  * @author Flavio Solci
  *
  */
-@Entity
 @Data
-@NoArgsConstructor
+@Entity
 @RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Categoria implements Serializable {
+public class Cidade implements Serializable {
 
 	/** serialVersionUID */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1511946562905621859L;
 
-	/** ID da categoria */
+	/** Id da Cidade */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
-	/** Nome da Categoria */
+	/** Nome da cidade. Ex: São Carlos */
 	@NonNull
 	private String nome;
-
-	/** Lista de produtos. Uma categoria pode ter varios produtos associados */
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	/** Estado dessa cidade */
+	@ManyToOne
+	@JoinColumn(name = "estado_id")
+	@NonNull
+	private Estado estado;
 
 }
