@@ -3,7 +3,7 @@ package br.com.cursomc.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.cursomc.domain.Cliente;
+import br.com.cursomc.domain.cliente.Cliente;
 
 /**
  * Acesso as informações dos Clientes no BD

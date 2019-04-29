@@ -1,4 +1,4 @@
-package br.com.cursomc.domain.enums;
+package br.com.cursomc.domain.cliente;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

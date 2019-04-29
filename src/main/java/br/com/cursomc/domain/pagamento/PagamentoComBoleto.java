@@ -1,4 +1,4 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.pagamento;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.cursomc.domain.enums.EstadoPagamento;
+import br.com.cursomc.domain.pedido.Pedido;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

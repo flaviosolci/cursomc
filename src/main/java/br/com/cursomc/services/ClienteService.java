@@ -3,7 +3,7 @@ package br.com.cursomc.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.cursomc.domain.Cliente;
+import br.com.cursomc.domain.cliente.Cliente;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
 

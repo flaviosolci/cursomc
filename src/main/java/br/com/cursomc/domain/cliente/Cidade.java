@@ -1,4 +1,4 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.cliente;
 
 import java.io.Serializable;
 
@@ -16,44 +16,34 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Modelo par Endereços
+ *
+ * Classe modela das cidades
  *
  * @author Flavio Solci
  *
  */
-@Entity
 @Data
-@NoArgsConstructor
+@Entity
 @RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Endereco implements Serializable {
+public class Cidade implements Serializable {
 
 	/** serialVersionUID */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1511946562905621859L;
 
-	/** Id do endereço */
+	/** Id da Cidade */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
-	/** Nome da rua */
+	/** Nome da cidade. Ex: São Carlos */
 	@NonNull
-	private String logradouro;
-	/** Numero da residência */
-	@NonNull
-	private String numero;
-	/** Complemento, se houver */
-	private String complemento;
-	/** Bairro */
-	@NonNull
-	private String bairro;
-	/** CEP */
-	@NonNull
-	private String cep;
-	/** Cidade */
-	@NonNull
+	private String nome;
+	/** Estado dessa cidade */
 	@ManyToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidade;
+	@JoinColumn(name = "estado_id")
+	@NonNull
+	private Estado estado;
 
 }

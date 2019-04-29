@@ -1,4 +1,4 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.cliente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import br.com.cursomc.domain.enums.TipoCliente;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

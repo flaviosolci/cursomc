@@ -1,8 +1,8 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.pagamento;
 
 import javax.persistence.Entity;
 
-import br.com.cursomc.domain.enums.EstadoPagamento;
+import br.com.cursomc.domain.pedido.Pedido;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.pedido;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.cursomc.domain.cliente.Cliente;
+import br.com.cursomc.domain.cliente.Endereco;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

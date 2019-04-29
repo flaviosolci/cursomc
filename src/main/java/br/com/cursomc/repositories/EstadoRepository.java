@@ -3,7 +3,7 @@ package br.com.cursomc.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.cursomc.domain.Estado;
+import br.com.cursomc.domain.cliente.Estado;
 
 /**
  * Acesso as informações dos Estados no BD

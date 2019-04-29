@@ -1,4 +1,4 @@
-package br.com.cursomc.domain;
+package br.com.cursomc.domain.cliente;
 
 import java.io.Serializable;
 
@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,29 +16,44 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- *
- * Classe modelo de Estados (UF)
+ * Modelo par Endereços
  *
  * @author Flavio Solci
  *
  */
-@Data
 @Entity
-@RequiredArgsConstructor
+@Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Estado implements Serializable {
+public class Endereco implements Serializable {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
-	/** Id do estado */
+	/** Id do endereço */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
-	/** Nome do estado. Ex: São Paulo */
+	/** Nome da rua */
 	@NonNull
-	private String nome;
+	private String logradouro;
+	/** Numero da residência */
+	@NonNull
+	private String numero;
+	/** Complemento, se houver */
+	private String complemento;
+	/** Bairro */
+	@NonNull
+	private String bairro;
+	/** CEP */
+	@NonNull
+	private String cep;
+	/** Cidade */
+	@NonNull
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
+	private Cidade cidade;
 
 }
