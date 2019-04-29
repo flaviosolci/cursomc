@@ -1,17 +1,16 @@
 package br.com.cursomc.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,36 +19,42 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Classe modelo de produtos. Tabela: PRODUTO
+ * Modelo Pedido
  *
  * @author Flavio Solci
  *
  */
 @Data
+@Entity
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Produto implements Serializable {
+public class Pedido implements Serializable {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
-	/** ID unico do produto */
+	/** Id do pedido */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@EqualsAndHashCode.Include
-	/** Nome do produto */
+	private Integer id;
+	/** data criação do pedido */
+	@Temporal(TemporalType.TIMESTAMP)
 	@NonNull
-	private String nome;
-	/** Preço do produto */
+	private Date instante;
+	//	/** Pagamento relacionado ao pedido */
+	//	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+	//	private Pagamento pagamento;
+	/** Cliente que fez o pedido */
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	@NonNull
-	private BigDecimal preco;
-
-	/** Lista de categorias. Um produto pode ter varias categorias */
-	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	private List<Categoria> categorias = new ArrayList<>();
+	private Cliente cliente;
+	/** Endereço de entrega */
+	@ManyToOne
+	@JoinColumn(name = "endereco_id")
+	@NonNull
+	private Endereco enderecoDeEntrega;
 
 }

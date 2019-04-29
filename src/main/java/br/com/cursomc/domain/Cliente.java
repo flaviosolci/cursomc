@@ -12,9 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.cursomc.domain.enums.TipoCliente;
 import lombok.Data;
@@ -51,8 +50,8 @@ public class Cliente implements Serializable {
 	/** Tipo do cliente. */
 	private Integer tipo;
 	/** List da endereços do cliente */
-	@OneToMany(mappedBy = "cliente")
-	@JsonManagedReference
+	@OneToMany
+	@JoinColumn(name = "cliente_id")
 	private List<Endereco> enderecos = new ArrayList<>();
 	/** Lista de telefones */
 	@ElementCollection
