@@ -32,7 +32,7 @@ public class ClienteResource {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cliente> find(@PathVariable(name = "id") final Integer id) {
-		final Cliente buscar = service.buscar(id);
+		final Cliente buscar = service.find(id);
 		return ResponseEntity.ok(buscar);
 	}
 

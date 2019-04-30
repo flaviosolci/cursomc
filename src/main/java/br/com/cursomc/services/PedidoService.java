@@ -26,7 +26,7 @@ public class PedidoService {
 	 * @param id ID do cliente
 	 * @return Cliente ou lança uma exceção se não encontrado
 	 */
-	public Pedido buscar(final Integer id) {
+	public Pedido find(final Integer id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Pedido com o ID " + id + " não existe!"));
 	}

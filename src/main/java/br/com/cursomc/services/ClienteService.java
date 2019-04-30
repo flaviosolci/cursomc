@@ -26,7 +26,7 @@ public class ClienteService {
 	 * @param id ID do cliente
 	 * @return Cliente ou lança uma exceção se não encontrado
 	 */
-	public Cliente buscar(final Integer id) {
+	public Cliente find(final Integer id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Cliente com o ID " + id + " não existe!"));
 	}

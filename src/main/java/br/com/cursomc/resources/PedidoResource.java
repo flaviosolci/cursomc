@@ -32,7 +32,7 @@ public class PedidoResource {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Pedido> find(@PathVariable(name = "id") final Integer id) {
-		final Pedido buscar = service.buscar(id);
+		final Pedido buscar = service.find(id);
 		return ResponseEntity.ok(buscar);
 	}
 

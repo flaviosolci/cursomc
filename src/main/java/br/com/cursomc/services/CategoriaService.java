@@ -26,13 +26,31 @@ public class CategoriaService {
 	 * @param id ID da categoria
 	 * @return Categoria ou lança uma exceção se não encontrado
 	 */
-	public Categoria buscar(final Integer id) {
+	public Categoria find(final Integer id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Categoria com o ID " + id + " não existe!"));
 	}
 
+	/**
+	 * Insere uma nova categoria
+	 *
+	 * @param categoria Categoria a ser inserida
+	 * @return Categoria inserida
+	 */
 	public Categoria insert(final Categoria categoria) {
 		categoria.setId(null);
+		return repository.save(categoria);
+	}
+
+	/**
+	 * Atualiza uma categoria se ela não existir lança uam exceção
+	 *
+	 * @param categoria categoria para ser atualizada
+	 * @return Categoria atualizada
+	 */
+	public Categoria update(final Categoria categoria) {
+		// se categoria não for encontrada lança uma exceção
+		find(categoria.getId());
 		return repository.save(categoria);
 	}
 
