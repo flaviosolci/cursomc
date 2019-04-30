@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import br.com.cursomc.dto.produto.CategoriaDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,4 +39,14 @@ public class Categoria implements Serializable {
 	@NonNull
 	private String nome;
 
+	/**
+	 * Construtor com parâmetro do objeto dto
+	 *
+	 * @param categoria dto para ser transformado em categoria
+	 */
+	public Categoria(final CategoriaDTO categoriaDTO) {
+		id = categoriaDTO.getId();
+		nome = categoriaDTO.getNome();
+
+	}
 }

@@ -1,6 +1,8 @@
 package br.com.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.cursomc.domain.produto.Categoria;
+import br.com.cursomc.dto.produto.CategoriaDTO;
 import br.com.cursomc.services.CategoriaService;
 
 /**
@@ -39,8 +42,8 @@ public class CategoriaResource {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Categoria> find(@PathVariable(name = "id") final Integer id) {
-		final Categoria buscar = service.find(id);
-		return ResponseEntity.ok(buscar);
+		final Categoria categoria = service.find(id);
+		return ResponseEntity.ok(categoria);
 	}
 
 	/**
@@ -50,7 +53,8 @@ public class CategoriaResource {
 	 * @return Response com URI para a categoria salva (201)
 	 */
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody final Categoria categoria) {
+	public ResponseEntity<Void> insert(@RequestBody final CategoriaDTO categoriaDTO) {
+		final Categoria categoria = new Categoria(categoriaDTO);
 		final Categoria categoriaSalva = service.insert(categoria);
 		final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(categoriaSalva.getId()).toUri();
@@ -67,8 +71,9 @@ public class CategoriaResource {
 	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@PathVariable(name = "id") final Integer id,
-			@RequestBody final Categoria categoria) {
-		categoria.setId(id);
+			@RequestBody final CategoriaDTO categoriaDTO) {
+		categoriaDTO.setId(id);
+		final Categoria categoria = new Categoria(categoriaDTO);
 		service.update(categoria);
 		return ResponseEntity.noContent().build();
 
@@ -84,6 +89,20 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete(@PathVariable(name = "id") final Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	/**
+	 * Procura uma categoria no BD e retorna caso tenha encontrado
+	 *
+	 * @param id ID da categoria que será buscada
+	 * @return Categoria ou NULL, se não encontra no BD
+	 */
+	@GetMapping()
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		final List<Categoria> categorias = service.findAll();
+		final List<CategoriaDTO> categoriaDTOs = categorias.stream().map(CategoriaDTO::new)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(categoriaDTOs);
 	}
 
 }
