@@ -1,10 +1,12 @@
 package br.com.cursomc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.produto.Categoria;
 import br.com.cursomc.repositories.CategoriaRepository;
+import br.com.cursomc.services.exception.DataIntegrityException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
 
 /**
@@ -43,7 +45,7 @@ public class CategoriaService {
 	}
 
 	/**
-	 * Atualiza uma categoria se ela não existir lança uam exceção
+	 * Atualiza uma categoria, se ela não existir lança uma exceção
 	 *
 	 * @param categoria categoria para ser atualizada
 	 * @return Categoria atualizada
@@ -52,6 +54,21 @@ public class CategoriaService {
 		// se categoria não for encontrada lança uma exceção
 		find(categoria.getId());
 		return repository.save(categoria);
+	}
+
+	/**
+	 * Deleta uma categoria, se ela não existir lança uma exceção
+	 *
+	 * @param id Id para ser deletada
+	 */
+	public void delete(final Integer id) {
+		// se categoria não for encontrada lança uma exceção
+		find(id);
+		try {
+			repository.deleteById(id);
+		} catch (final DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria com Produtos!");
+		}
 	}
 
 }

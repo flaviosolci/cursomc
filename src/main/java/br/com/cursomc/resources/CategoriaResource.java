@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class CategoriaResource {
 	 * Salva uma categoria no BD
 	 *
 	 * @param categoria categoria para ser salva
-	 * @return Response com URI para a categoria salva
+	 * @return Response com URI para a categoria salva (201)
 	 */
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody final Categoria categoria) {
@@ -57,6 +58,13 @@ public class CategoriaResource {
 
 	}
 
+	/**
+	 * Atualiza uma categoria
+	 *
+	 * @param id        ID da categoria a ser atualizada
+	 * @param categoria categoria atualizada
+	 * @return No content (204)
+	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@PathVariable(name = "id") final Integer id,
 			@RequestBody final Categoria categoria) {
@@ -64,6 +72,18 @@ public class CategoriaResource {
 		service.update(categoria);
 		return ResponseEntity.noContent().build();
 
+	}
+
+	/**
+	 * Delete uma categoria do DB
+	 *
+	 * @param id ID da categoria que será deletada
+	 * @return
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable(name = "id") final Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }

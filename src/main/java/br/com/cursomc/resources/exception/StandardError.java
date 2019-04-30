@@ -3,6 +3,8 @@ package br.com.cursomc.resources.exception;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,6 +27,7 @@ public class StandardError implements Serializable {
 	/** Mensagem do erro */
 	private String mensagem;
 	/** Data e hora do erro */
+	@JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
 	private LocalDateTime timestamp;
 
 }
