@@ -31,4 +31,9 @@ public class CategoriaService {
 				.orElseThrow(() -> new ObjectNotFoundException("Categoria com o ID " + id + " não existe!"));
 	}
 
+	public Categoria insert(final Categoria categoria) {
+		categoria.setId(null);
+		return repository.save(categoria);
+	}
+
 }

@@ -1,11 +1,16 @@
 package br.com.cursomc.resources;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.cursomc.domain.produto.Categoria;
 import br.com.cursomc.services.CategoriaService;
@@ -34,6 +39,21 @@ public class CategoriaResource {
 	public ResponseEntity<Categoria> find(@PathVariable(name = "id") final Integer id) {
 		final Categoria buscar = service.buscar(id);
 		return ResponseEntity.ok(buscar);
+	}
+
+	/**
+	 * Salva uma categoria no BD
+	 *
+	 * @param categoria categoria para ser salva
+	 * @return Response com URI para a categoria salva
+	 */
+	@PostMapping
+	public ResponseEntity<Void> insert(@RequestBody final Categoria categoria) {
+		final Categoria categoriaSalva = service.insert(categoria);
+		final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(categoriaSalva.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+
 	}
 
 }
