@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
@@ -44,9 +46,9 @@ public class CategoriaResource {
 	 * @return Categoria ou NULL, se não encontra no BD
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Categoria> find(@PathVariable(name = "id") final Integer id) {
+	public ResponseEntity<CategoriaDTO> find(@PathVariable(name = "id") final Integer id) {
 		final Categoria categoria = service.find(id);
-		return ResponseEntity.ok(categoria);
+		return ResponseEntity.ok(new CategoriaDTO(categoria));
 	}
 
 	/**
@@ -56,7 +58,7 @@ public class CategoriaResource {
 	 * @return Response com URI para a categoria salva (201)
 	 */
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody final CategoriaDTO categoriaDTO) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody final CategoriaDTO categoriaDTO) {
 		final Categoria categoria = new Categoria(categoriaDTO);
 		final Categoria categoriaSalva = service.insert(categoria);
 		final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -73,8 +75,8 @@ public class CategoriaResource {
 	 * @return No content (204)
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> update(@PathVariable(name = "id") final Integer id,
-			@RequestBody final CategoriaDTO categoriaDTO) {
+	public ResponseEntity<Void> update( @PathVariable(name = "id") final Integer id,
+			@Valid @RequestBody final CategoriaDTO categoriaDTO) {
 		categoriaDTO.setId(id);
 		final Categoria categoria = new Categoria(categoriaDTO);
 		service.update(categoria);

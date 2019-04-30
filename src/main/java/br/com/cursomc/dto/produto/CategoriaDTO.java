@@ -2,6 +2,9 @@ package br.com.cursomc.dto.produto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import br.com.cursomc.domain.produto.Categoria;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,8 @@ public class CategoriaDTO implements Serializable {
 	private Integer id;
 
 	/** Nome da Categoria */
+	@NotEmpty(message = "Nome da categoria é obrigatório")
+	@Size(min = 5, max = 80, message = "Nome da categoria deve ter entre 5 e 10 caracteres")
 	private String nome;
 
 	/**
