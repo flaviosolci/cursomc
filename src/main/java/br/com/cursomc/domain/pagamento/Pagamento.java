@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.cursomc.domain.pedido.Pedido;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,6 +47,22 @@ public abstract class Pagamento implements Serializable {
 	@OneToOne
 	@MapsId
 	@NonNull
+	@JsonBackReference
 	private Pedido pedido;
+
+	/**
+	 * @param estadoPagamento Estado do pagamento
+	 */
+	public void setEstado(final EstadoPagamento estadoPagamento) {
+		estado = estadoPagamento.getCodigo();
+
+	}
+
+	/**
+	 * @return EstadoPagamento
+	 */
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEstadoPagamento(estado);
+	}
 
 }

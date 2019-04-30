@@ -11,7 +11,7 @@ import br.com.cursomc.domain.cliente.Cliente;
 import br.com.cursomc.services.ClienteService;
 
 /**
- * API REST para acesso os Clientes
+ * API REST para acesso aos Clientes
  *
  * @author Flavio Solci
  *
@@ -20,7 +20,7 @@ import br.com.cursomc.services.ClienteService;
 @RequestMapping("/clientes")
 public class ClienteResource {
 
-	/** Classe de acesso as categorias */
+	/** Classe de acesso aos clientes */
 	@Autowired
 	private ClienteService service;
 

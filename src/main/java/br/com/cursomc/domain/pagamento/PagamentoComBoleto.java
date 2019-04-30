@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.cursomc.domain.pedido.Pedido;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,9 +30,11 @@ public class PagamentoComBoleto extends Pagamento {
 
 	/** Data do vencimento do boleto */
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataVencimento;
 	/** Data do pagamento do boleto */
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
 	private Date dataPagamento;
 
 	/**

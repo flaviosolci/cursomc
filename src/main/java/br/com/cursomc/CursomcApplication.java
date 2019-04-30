@@ -18,6 +18,7 @@ import br.com.cursomc.domain.pagamento.EstadoPagamento;
 import br.com.cursomc.domain.pagamento.Pagamento;
 import br.com.cursomc.domain.pagamento.PagamentoComBoleto;
 import br.com.cursomc.domain.pagamento.PagamentoComCartao;
+import br.com.cursomc.domain.pedido.ItemPedido;
 import br.com.cursomc.domain.pedido.Pedido;
 import br.com.cursomc.domain.produto.Categoria;
 import br.com.cursomc.domain.produto.Produto;
@@ -26,6 +27,7 @@ import br.com.cursomc.repositories.CidadeRepository;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.EnderecoRepository;
 import br.com.cursomc.repositories.EstadoRepository;
+import br.com.cursomc.repositories.ItemPedidoRepository;
 import br.com.cursomc.repositories.PagamentoRepository;
 import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.repositories.ProdutoRepository;
@@ -77,6 +79,12 @@ public class CursomcApplication implements CommandLineRunner {
 	 */
 	@Autowired
 	private PagamentoRepository pgtoRepo;
+
+	/**
+	 * Repositório usado para inserir itens de pedido quando a aplicação inicia
+	 */
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepo;
 
 	/**
 	 * Start the application
@@ -144,6 +152,13 @@ public class CursomcApplication implements CommandLineRunner {
 		final Pagamento pagto2 = new PagamentoComBoleto(EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"));
 		pgtoRepo.saveAll(Arrays.asList(pagto1, pagto2));
 		pedidoRepo.saveAll(Arrays.asList(ped1, ped2));
+
+		final ItemPedido ip1 = new ItemPedido(ped1, produto, BigDecimal.ZERO, 1, BigDecimal.valueOf(2000.00));
+		final ItemPedido ip2 = new ItemPedido(ped1, produto3, BigDecimal.ZERO, 1, BigDecimal.valueOf(80.00));
+		final ItemPedido ip3 = new ItemPedido(ped2, produto2, BigDecimal.valueOf(100.00D), 1,
+				BigDecimal.valueOf(800.00));
+
+		itemPedidoRepo.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 	}
 
