@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.produto.Categoria;
@@ -78,6 +81,21 @@ public class CategoriaService {
 	 */
 	public List<Categoria> findAll() {
 		return repository.findAll();
+	}
+
+	/**
+	 * Encontra todas as categorias com paginação
+	 *
+	 * @param page         Qual página pegar (inicia em zero)
+	 * @param linesPerPage quantos registros por pagina
+	 * @param orderBy      Ordenação
+	 * @param direction    Direção da ordem
+	 * @return Página com categorias
+	 */
+	public Page<Categoria> findWithPage(final Integer page, final Integer linesPerPage, final String orderBy,
+			final Direction direction) {
+		final PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
+		return repository.findAll(pageRequest);
 	}
 
 }

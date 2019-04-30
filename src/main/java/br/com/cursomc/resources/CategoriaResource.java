@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -94,14 +97,36 @@ public class CategoriaResource {
 	/**
 	 * Procura uma categoria no BD e retorna caso tenha encontrado
 	 *
-	 * @param id ID da categoria que será buscada
-	 * @return Categoria ou NULL, se não encontra no BD
+	 * @return Lista de categorias
 	 */
 	@GetMapping()
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		final List<Categoria> categorias = service.findAll();
 		final List<CategoriaDTO> categoriaDTOs = categorias.stream().map(CategoriaDTO::new)
 				.collect(Collectors.toList());
+		return ResponseEntity.ok(categoriaDTOs);
+	}
+
+	/**
+	 * Procura uma categoria no BD usando paginação e retorna caso tenha encontrado
+	 *
+	 * @param page         Qual página pegar (inicia em zero)
+	 * @param linesPerPage quantos registros por pagina
+	 * @param orderBy      Ordenação
+	 * @param direction    Direção da ordem
+	 *
+	 * @return Lista de categorias paginadas
+	 */
+	@GetMapping(value = "/page")
+	public ResponseEntity<Page<CategoriaDTO>> findWithPage(
+			@RequestParam(value = "page", defaultValue = "0") final Integer page,
+			@RequestParam(name = "linesPerPage", defaultValue = "24") final Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") final String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") final String direction) {
+
+		final Page<Categoria> categorias = service.findWithPage(page, linesPerPage, orderBy,
+				Direction.valueOf(direction));
+		final Page<CategoriaDTO> categoriaDTOs = categorias.map(CategoriaDTO::new);
 		return ResponseEntity.ok(categoriaDTOs);
 	}
 
