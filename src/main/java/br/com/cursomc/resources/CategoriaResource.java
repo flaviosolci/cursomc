@@ -54,7 +54,7 @@ public class CategoriaResource {
 	/**
 	 * Salva uma categoria no BD
 	 *
-	 * @param categoria categoria para ser salva
+	 * @param categoriaDTO categoria para ser salva
 	 * @return Response com URI para a categoria salva (201)
 	 */
 	@PostMapping
@@ -70,12 +70,12 @@ public class CategoriaResource {
 	/**
 	 * Atualiza uma categoria
 	 *
-	 * @param id        ID da categoria a ser atualizada
-	 * @param categoria categoria atualizada
+	 * @param id           ID da categoria a ser atualizada
+	 * @param categoriaDTO categoria atualizada
 	 * @return No content (204)
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> update( @PathVariable(name = "id") final Integer id,
+	public ResponseEntity<Void> update(@PathVariable(name = "id") final Integer id,
 			@Valid @RequestBody final CategoriaDTO categoriaDTO) {
 		categoriaDTO.setId(id);
 		final Categoria categoria = new Categoria(categoriaDTO);
@@ -88,7 +88,7 @@ public class CategoriaResource {
 	 * Delete uma categoria do DB
 	 *
 	 * @param id ID da categoria que será deletada
-	 * @return
+	 * @return No content (204)
 	 */
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable(name = "id") final Integer id) {

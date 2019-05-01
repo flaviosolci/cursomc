@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import br.com.cursomc.dto.cliente.ClienteDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -70,7 +71,18 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCodigo();
+		this.tipo = tipo == null ? null : tipo.getCodigo();
+	}
+
+	/**
+	 * Construtor com parâmetro do objeto dto
+	 *
+	 * @param cliente dto para ser transformado em cliente
+	 */
+	public Cliente(final ClienteDTO cliente) {
+		id = cliente.getId();
+		nome = cliente.getNome();
+		email = cliente.getEmail();
 	}
 
 	/**
@@ -87,6 +99,9 @@ public class Cliente implements Serializable {
 	 * @return tipo do cliente
 	 */
 	public TipoCliente getTipo() {
+		if (tipo == null) {
+			return null;
+		}
 		return TipoCliente.toTipoCliente(tipo);
 
 	}

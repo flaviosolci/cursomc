@@ -27,7 +27,7 @@ public class CategoriaDTO implements Serializable {
 
 	/** Nome da Categoria */
 	@NotEmpty(message = "Nome da categoria é obrigatório")
-	@Size(min = 5, max = 80, message = "Nome da categoria deve ter entre 5 e 10 caracteres")
+	@Size(min = 5, max = 80, message = "Nome da categoria deve ter entre 5 e 80 caracteres")
 	private String nome;
 
 	/**
