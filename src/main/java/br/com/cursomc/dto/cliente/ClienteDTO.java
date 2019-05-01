@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import br.com.cursomc.domain.cliente.Cliente;
+import br.com.cursomc.services.validation.ClienteUpdate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 
 	/** serialVersionUID */

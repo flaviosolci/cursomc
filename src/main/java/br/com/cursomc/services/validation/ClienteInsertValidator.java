@@ -21,7 +21,7 @@ import br.com.cursomc.services.validation.utils.CPFCNPJUtils;
  */
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 
-	/** Repositorio para validar clientes */
+	/** Repositório para validar clientes */
 	@Autowired
 	private ClienteRepository repository;
 
