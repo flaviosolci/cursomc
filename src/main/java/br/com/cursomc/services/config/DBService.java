@@ -1,5 +1,5 @@
 /** */
-package br.com.cursomc.services;
+package br.com.cursomc.services.config;
 
 import java.math.BigDecimal;
 import java.text.ParseException;

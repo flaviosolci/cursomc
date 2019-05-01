@@ -14,6 +14,7 @@ import br.com.cursomc.repositories.ItemPedidoRepository;
 import br.com.cursomc.repositories.PagamentoRepository;
 import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
+import br.com.cursomc.services.mail.EmailService;
 import lombok.NonNull;
 
 /**
@@ -48,6 +49,9 @@ public class PedidoService {
 	/** Busca clientes */
 	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	private EmailService emailService;
 
 	/**
 	 * Busca um Pedido pelo ID
@@ -86,8 +90,10 @@ public class PedidoService {
 		}
 
 		itemPedidoRepo.saveAll(pedido.getItens());
-		System.out.println(pedido);
-		return repository.save(pedido);
+		final Pedido pedidoSalvo = repository.save(pedido);
+		// envia email
+		emailService.sendOrderConfirmationEmail(pedidoSalvo);
+		return pedidoSalvo;
 
 	}
 

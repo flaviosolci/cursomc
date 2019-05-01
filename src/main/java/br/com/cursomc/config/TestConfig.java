@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import br.com.cursomc.services.DBService;
+import br.com.cursomc.services.config.DBService;
+import br.com.cursomc.services.mail.EmailService;
+import br.com.cursomc.services.mail.MockEmailService;
 
 /**
  * Configurações de Teste
@@ -30,6 +32,14 @@ public class TestConfig {
 		dbService.instantiateDabase();
 		return true;
 
+	}
+
+	/**
+	 * @return Cria o email service dummy
+	 */
+	@Bean
+	public EmailService emailService() {
+		return new MockEmailService();
 	}
 
 }
