@@ -68,7 +68,6 @@ public class Pedido implements Serializable {
 	private Endereco enderecoDeEntrega;
 
 	@OneToMany(mappedBy = "itemPedidoPK.pedido")
-	@JsonManagedReference
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")

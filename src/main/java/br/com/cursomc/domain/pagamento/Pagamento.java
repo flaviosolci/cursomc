@@ -11,6 +11,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.cursomc.domain.pedido.Pedido;
 import lombok.Data;
@@ -31,6 +33,9 @@ import lombok.RequiredArgsConstructor;
 @Inheritance(strategy = InheritanceType.JOINED)
 @RequiredArgsConstructor
 @NoArgsConstructor
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = PagamentoComBoleto.class),
+	@JsonSubTypes.Type(value = PagamentoComCartao.class) })
 public abstract class Pagamento implements Serializable {
 
 	/** serialVersionUID */
