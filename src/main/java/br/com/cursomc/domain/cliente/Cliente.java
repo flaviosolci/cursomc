@@ -15,7 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import br.com.cursomc.dto.cliente.ClienteDTO;
+import org.apache.commons.lang3.StringUtils;
+
+import br.com.cursomc.dto.cliente.ClienteNewDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -77,12 +79,23 @@ public class Cliente implements Serializable {
 	/**
 	 * Construtor com parâmetro do objeto dto
 	 *
-	 * @param cliente dto para ser transformado em cliente
+	 * @param clienteNewDTO dto para ser transformado em cliente
 	 */
-	public Cliente(final ClienteDTO cliente) {
-		id = cliente.getId();
-		nome = cliente.getNome();
-		email = cliente.getEmail();
+	public Cliente(final ClienteNewDTO clienteNewDTO) {
+		this(clienteNewDTO.getNome(), clienteNewDTO.getEmail(), clienteNewDTO.getCpfOuCnpj(),
+				TipoCliente.toTipoCliente(clienteNewDTO.getTipo()));
+
+		getEnderecos().add(new Endereco(clienteNewDTO.getLogradouro(), clienteNewDTO.getNumero(),
+				clienteNewDTO.getBairro(), clienteNewDTO.getBairro(), new Cidade(clienteNewDTO.getCidadeId())));
+		getTelefones().add(clienteNewDTO.getTelefone1());
+
+		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
+			getTelefones().add(clienteNewDTO.getTelefone2());
+		}
+
+		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
+			getTelefones().add(clienteNewDTO.getTelefone3());
+		}
 	}
 
 	/**

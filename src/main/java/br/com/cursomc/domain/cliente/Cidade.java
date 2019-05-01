@@ -46,4 +46,13 @@ public class Cidade implements Serializable {
 	@NonNull
 	private Estado estado;
 
+	/**
+	 * Construtor apenas com o id da cidade
+	 *
+	 * @param cidadeId Id da cidade
+	 */
+	public Cidade(final Integer cidadeId) {
+		id = cidadeId;
+	}
+
 }

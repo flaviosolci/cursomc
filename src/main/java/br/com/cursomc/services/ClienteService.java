@@ -10,8 +10,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.cliente.Cliente;
+import br.com.cursomc.domain.cliente.Endereco;
 import br.com.cursomc.dto.cliente.ClienteDTO;
 import br.com.cursomc.repositories.ClienteRepository;
+import br.com.cursomc.repositories.EnderecoRepository;
 import br.com.cursomc.services.exception.DataIntegrityException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
 
@@ -28,6 +30,9 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
 
+	@Autowired
+	private EnderecoRepository endrecoRepo;
+
 	/**
 	 * Busca um cliente pelo ID
 	 *
@@ -37,6 +42,20 @@ public class ClienteService {
 	public Cliente find(final Integer id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Cliente com o ID " + id + " não existe!"));
+	}
+
+	/**
+	 * Insere um novo cliente
+	 *
+	 * @param cliente Cliente a ser inserido
+	 * @return Cliente inserido
+	 */
+	public Cliente insert(final Cliente cliente) {
+		cliente.setId(null);
+		final List<Endereco> enderecosSalvos = endrecoRepo.saveAll(cliente.getEnderecos());
+		cliente.getEnderecos().clear();
+		cliente.getEnderecos().addAll(enderecosSalvos);
+		return repository.save(cliente);
 	}
 
 	/**
