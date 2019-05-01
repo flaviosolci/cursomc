@@ -59,8 +59,7 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 	private Integer getIDFromRequestParameters() {
 		final Map<String, String> map = (Map<String, String>) request
 				.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		final Integer id = Integer.parseInt(map.get("id"));
-		return id;
+		return Integer.parseInt(map.get("id"));
 	}
 
 }

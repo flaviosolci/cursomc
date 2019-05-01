@@ -21,10 +21,10 @@ public class PedidoService {
 	private PedidoRepository repository;
 
 	/**
-	 * Busca um cliente pelo ID
+	 * Busca um Pedido pelo ID
 	 *
-	 * @param id ID do cliente
-	 * @return Cliente ou lança uma exceção se não encontrado
+	 * @param id ID do Pedido
+	 * @return Pedido ou lança uma exceção se não encontrado
 	 */
 	public Pedido find(final Integer id) {
 		return repository.findById(id)

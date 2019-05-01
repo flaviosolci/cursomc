@@ -110,17 +110,37 @@ public class CursomcApplication implements CommandLineRunner {
 		final Categoria categoria4 = new Categoria("Jardinagem");
 		final Categoria categoria5 = new Categoria("Cozinha");
 		final Categoria categoria6 = new Categoria("Games");
+		final Categoria categoria7 = new Categoria("Perfumaria");
 
-		categoriaRepo.saveAll(Arrays.asList(categoria, categoria2, categoria3, categoria4, categoria5, categoria6));
+		categoriaRepo.saveAll(
+				Arrays.asList(categoria, categoria2, categoria3, categoria4, categoria5, categoria6, categoria7));
 
 		final Produto produto = new Produto("Computador", BigDecimal.valueOf(2000.00));
-		produto.getCategorias().add(categoria);
 		final Produto produto2 = new Produto("Impressora", BigDecimal.valueOf(800.00));
-		produto2.getCategorias().addAll(Arrays.asList(categoria, categoria2));
 		final Produto produto3 = new Produto("Mouse", BigDecimal.valueOf(80.00));
-		produto3.getCategorias().add(categoria);
+		final Produto produto4 = new Produto("Mesa de escritório", BigDecimal.valueOf(300.00));
+		final Produto produto5 = new Produto("Toalha", BigDecimal.valueOf(50.00));
+		final Produto produto6 = new Produto("Colcha", BigDecimal.valueOf(200.00));
+		final Produto produto7 = new Produto("TV True Color", BigDecimal.valueOf(1200.00));
+		final Produto produto8 = new Produto("Roçadeira", BigDecimal.valueOf(800.00));
+		final Produto produto9 = new Produto("Abajour", BigDecimal.valueOf(100.00));
+		final Produto produto10 = new Produto("Pendente", BigDecimal.valueOf(180.00));
+		final Produto produto11 = new Produto("Shampoo", BigDecimal.valueOf(90.00));
 
-		produtoRepo.saveAll(Arrays.asList(produto, produto2, produto3));
+		produto.getCategorias().addAll(Arrays.asList(categoria, categoria4));
+		produto2.getCategorias().addAll(Arrays.asList( categoria2, categoria4));
+		produto3.getCategorias().addAll(Arrays.asList(categoria, categoria4));
+		produto4.getCategorias().addAll(Arrays.asList(categoria2));
+		produto5.getCategorias().addAll(Arrays.asList(categoria3));
+		produto6.getCategorias().addAll(Arrays.asList(categoria3));
+		produto7.getCategorias().addAll(Arrays.asList(categoria4));
+		produto8.getCategorias().addAll(Arrays.asList(categoria5));
+		produto9.getCategorias().addAll(Arrays.asList(categoria6));
+		produto10.getCategorias().addAll(Arrays.asList(categoria6));
+		produto11.getCategorias().addAll(Arrays.asList(categoria7));
+
+		produtoRepo.saveAll(Arrays.asList(produto, produto2, produto3, produto4, produto5, produto6, produto7, produto8,
+				produto9, produto10, produto11));
 
 		final Estado est1 = new Estado("Minas Gerais");
 		final Estado est2 = new Estado("São Paulo");
