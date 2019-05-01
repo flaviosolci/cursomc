@@ -2,6 +2,8 @@ package br.com.cursomc.domain.pedido;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -96,6 +98,19 @@ public class ItemPedido implements Serializable {
 	 */
 	public BigDecimal getSubTotal() {
 		return preco.subtract(desconto).multiply(BigDecimal.valueOf(quantidade));
+	}
+
+	@Override
+	public String toString() {
+		final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+		final StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Qtd: ").append(quantidade);
+		builder.append(", Preço unitário: ").append(nf.format(preco));
+		builder.append(", Subtotal: ").append(nf.format(getSubTotal()));
+		return builder.toString();
+
 	}
 
 }

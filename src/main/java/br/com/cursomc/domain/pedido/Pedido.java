@@ -2,8 +2,11 @@ package br.com.cursomc.domain.pedido;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -54,7 +57,7 @@ public class Pedido implements Serializable {
 	/** data criação do pedido */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NonNull
-	@JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date instante;
 	/** Cliente que fez o pedido */
 	@ManyToOne
@@ -84,6 +87,25 @@ public class Pedido implements Serializable {
 		}
 		return total;
 
+	}
+
+	@Override
+	public String toString() {
+		final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		final SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
+
+		final StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ").append(id);
+		builder.append(", Instante: ").append(spf.format(instante));
+		builder.append(", Cliente: ").append(cliente.getNome());
+		builder.append(", Situação do Pagamento: ").append(pagamento.getEstado().getDescricao());
+		builder.append("\nDetalhes:\n");
+		for (final ItemPedido itemPedido : itens) {
+			builder.append(itemPedido);
+			builder.append('\n');
+		}
+		builder.append("Valor Total: ").append(nf.format(getValorTotal()));
+		return builder.toString();
 	}
 
 }
