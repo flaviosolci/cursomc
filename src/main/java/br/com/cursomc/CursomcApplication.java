@@ -178,7 +178,7 @@ public class CursomcApplication implements CommandLineRunner {
 		pedidoRepo.saveAll(Arrays.asList(ped1, ped2));
 
 		final ItemPedido ip1 = new ItemPedido(ped1, produto, BigDecimal.ZERO, 1, BigDecimal.valueOf(2000.00));
-		final ItemPedido ip2 = new ItemPedido(ped1, produto3, BigDecimal.ZERO, 1, BigDecimal.valueOf(80.00));
+		final ItemPedido ip2 = new ItemPedido(ped1, produto3, BigDecimal.ZERO, 2, BigDecimal.valueOf(80.00));
 		final ItemPedido ip3 = new ItemPedido(ped2, produto2, BigDecimal.valueOf(100.00D), 1,
 				BigDecimal.valueOf(800.00));
 

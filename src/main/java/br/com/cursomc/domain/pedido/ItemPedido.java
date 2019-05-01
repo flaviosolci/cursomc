@@ -63,10 +63,20 @@ public class ItemPedido implements Serializable {
 	}
 
 	/**
-	 * @return Produto do item
+	 * @return Produto do item. Usado pelo JSON/Spring para mostrar os produtos
+	 *         desse item
 	 */
 	public Produto getProduto() {
 		return getItemPedidoPK().getProduto();
+	}
+
+	/**
+	 * Calcula o subtotal do Item
+	 *
+	 * @return subtotal (preco - desconto) * quantidade
+	 */
+	public BigDecimal getSubTotal() {
+		return preco.subtract(desconto).multiply(BigDecimal.valueOf(quantidade));
 	}
 
 }

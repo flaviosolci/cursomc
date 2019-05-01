@@ -1,6 +1,7 @@
 package br.com.cursomc.domain.pedido;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -73,5 +74,17 @@ public class Pedido implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	@JsonManagedReference
 	private Pagamento pagamento;
+
+	/**
+	 * @return Valor total do pedido
+	 */
+	public BigDecimal getValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+		for (final ItemPedido itemPedido : itens) {
+			total = total.add(itemPedido.getSubTotal());
+		}
+		return total;
+
+	}
 
 }
