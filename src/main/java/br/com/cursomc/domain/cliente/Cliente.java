@@ -70,7 +70,7 @@ public class Cliente implements Serializable {
 	 * @param tipo      Tipo do cliente.
 	 */
 	public Cliente(@NonNull final String nome, @NonNull final String email, @NonNull final String cpfOuCnpj,
-			@NonNull final TipoCliente tipo) {
+			final TipoCliente tipo) {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;

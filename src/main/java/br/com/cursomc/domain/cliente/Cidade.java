@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  *
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cidade implements Serializable {
@@ -38,12 +36,10 @@ public class Cidade implements Serializable {
 	@EqualsAndHashCode.Include
 	private Integer id;
 	/** Nome da cidade. Ex: São Carlos */
-	@NonNull
 	private String nome;
 	/** Estado dessa cidade */
 	@ManyToOne
 	@JoinColumn(name = "estado_id")
-	@NonNull
 	private Estado estado;
 
 	/**
@@ -53,6 +49,17 @@ public class Cidade implements Serializable {
 	 */
 	public Cidade(final Integer cidadeId) {
 		id = cidadeId;
+	}
+
+	/**
+	 * Construtor para cidades
+	 *
+	 * @param nome   Nome da cidade
+	 * @param estado Estado da cidade
+	 */
+	public Cidade(@NonNull final String nome, @NonNull final Estado estado) {
+		this.nome = nome;
+		this.estado = estado;
 	}
 
 }
