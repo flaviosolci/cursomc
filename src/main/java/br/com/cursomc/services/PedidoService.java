@@ -91,8 +91,8 @@ public class PedidoService {
 
 		itemPedidoRepo.saveAll(pedido.getItens());
 		final Pedido pedidoSalvo = repository.save(pedido);
-		// envia email
-		emailService.sendOrderConfirmationEmail(pedidoSalvo);
+		// envia email HTML
+		emailService.sendOrderConfirmationHtmlEmail(pedidoSalvo);
 		return pedidoSalvo;
 
 	}
