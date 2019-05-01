@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.produto.Categoria;
+import br.com.cursomc.dto.produto.CategoriaDTO;
 import br.com.cursomc.repositories.CategoriaRepository;
 import br.com.cursomc.services.exception.DataIntegrityException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
@@ -55,10 +56,11 @@ public class CategoriaService {
 	 * @param categoria categoria para ser atualizada
 	 * @return Categoria atualizada
 	 */
-	public Categoria update(final Categoria categoria) {
+	public Categoria update(final CategoriaDTO categoriaDTO) {
 		// se categoria não for encontrada lança uma exceção
-		find(categoria.getId());
-		return repository.save(categoria);
+		final Categoria categoriaFound = find(categoriaDTO.getId());
+		updatecCategoriaWithDTO(categoriaFound, categoriaDTO);
+		return repository.save(categoriaFound);
 	}
 
 	/**
@@ -96,6 +98,22 @@ public class CategoriaService {
 			final Direction direction) {
 		final PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
 		return repository.findAll(pageRequest);
+	}
+
+	// =============================
+	// == HELPER
+	// =============================
+
+	/**
+	 * Atualiza uma categoria do BD com as informações do DTO, assim a categoria
+	 * será atualizada apenas com as informações relevantes e o resto permanecerá
+	 * igual
+	 *
+	 * @param categoriaFound Categoria encontrando no BD
+	 * @param categoriaDTO   Categoria vinda do serviço REST para ser atualizado
+	 */
+	private void updatecCategoriaWithDTO(final Categoria categoriaFound, final CategoriaDTO categoriaDTO) {
+		categoriaFound.setNome(categoriaDTO.getNome());
 	}
 
 }

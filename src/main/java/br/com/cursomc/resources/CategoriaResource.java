@@ -78,8 +78,7 @@ public class CategoriaResource {
 	public ResponseEntity<Void> update(@PathVariable(name = "id") final Integer id,
 			@Valid @RequestBody final CategoriaDTO categoriaDTO) {
 		categoriaDTO.setId(id);
-		final Categoria categoria = new Categoria(categoriaDTO);
-		service.update(categoria);
+		service.update(categoriaDTO);
 		return ResponseEntity.noContent().build();
 
 	}

@@ -90,7 +90,7 @@ public class ClienteService {
 	}
 
 	// =============================
-	// ==
+	// == HELPER
 	// =============================
 
 	/**
@@ -98,7 +98,7 @@ public class ClienteService {
 	 * atualizado apenas com as informações relevantes e o resto permanecerá igual
 	 *
 	 * @param clienteFound Cliente encontrando no BD
-	 * @param clienteDTO   Cliente vindo do serviço REST para ser atualziado
+	 * @param clienteDTO   Cliente vindo do serviço REST para ser atualizado
 	 */
 	private void updateClienteWithDTO(final Cliente clienteFound, final ClienteDTO clienteDTO) {
 		clienteFound.setNome(clienteDTO.getNome());
