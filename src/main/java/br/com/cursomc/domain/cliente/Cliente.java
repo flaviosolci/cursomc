@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,6 +48,7 @@ public class Cliente implements Serializable {
 	/** Nome do cliente */
 	private String nome;
 	/** Email do cliente */
+	@Column(unique = true)
 	private String email;
 	/** Dependendo do tipo do cliente pode ter CPF ou CNPJ */
 	private String cpfOuCnpj;
