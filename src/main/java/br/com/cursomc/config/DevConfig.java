@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.cursomc.services.config.DBService;
+import br.com.cursomc.services.mail.EmailService;
+import br.com.cursomc.services.mail.MockEmailService;
+import br.com.cursomc.services.mail.SmtpEmailService;
 
 /**
  * Configurações de DEV
@@ -39,6 +42,18 @@ public class DevConfig {
 		dbService.instantiateDabase();
 		return true;
 
+	}
+
+	/**
+	 * Aqui deveria cria um {@link SmtpEmailService}, porém como nao quero
+	 * configurar o email padrão, vou deixar o dummy mesmo
+	 *
+	 * @return Cria o email service real
+	 */
+	@Bean
+	public EmailService emailService() {
+		// return new SmtpEmailService();
+		return new MockEmailService();
 	}
 
 }
