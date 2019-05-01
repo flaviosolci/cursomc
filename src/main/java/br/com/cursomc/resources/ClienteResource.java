@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,7 @@ public class ClienteResource {
 	 * @return Response com URI para o cliente salvo (201)
 	 */
 	@PostMapping
+	@Transactional
 	public ResponseEntity<Void> insert(@Valid @RequestBody final ClienteNewDTO clienteNewDTO) {
 		final Cliente cliente = new Cliente(clienteNewDTO);
 		final Cliente clienteSalvo = service.insert(cliente);
