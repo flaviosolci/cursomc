@@ -7,14 +7,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import br.com.cursomc.security.JWTAuthenticationFilter;
+import br.com.cursomc.security.JWTUtil;
 
 /**
  * Classe de configuração de segurança
@@ -30,12 +35,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Environment environment;
 
+	/** Autenticação do usuário */
+	@Autowired
+	private UserDetailsService detailsService;
+
+	@Autowired
+	private JWTUtil jwtUtil;
+
 	/** Páginas acessíveis */
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 
 	/** Páginas acessíveis somente leitura */
 	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
 
+	/**
+	 * Configura acesso as páginas
+	 */
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		// se for um profile de test, libera o h2-console
@@ -46,8 +61,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 		.antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+	}
+
+	/**
+	 * Configura o acesso dos usuários
+	 */
+	@Override
+	public void configure(final AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(detailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 
 	/**
