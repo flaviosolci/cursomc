@@ -17,7 +17,7 @@ import lombok.ToString;
 public enum Perfil {
 
 	/** Administrador. Full access */
-	ADMIN(1, "ROLE_AMDIN"),
+	ADMIN(1, "ROLE_ADMIN"),
 	/** Cliente. Acesso a própria conta */
 	CLIENTE(2, "ROLE_CLIENTE");
 
