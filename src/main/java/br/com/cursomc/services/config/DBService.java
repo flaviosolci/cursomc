@@ -23,6 +23,7 @@ import br.com.cursomc.domain.pedido.ItemPedido;
 import br.com.cursomc.domain.pedido.Pedido;
 import br.com.cursomc.domain.produto.Categoria;
 import br.com.cursomc.domain.produto.Produto;
+import br.com.cursomc.domain.user.Perfil;
 import br.com.cursomc.repositories.CategoriaRepository;
 import br.com.cursomc.repositories.CidadeRepository;
 import br.com.cursomc.repositories.ClienteRepository;
@@ -150,6 +151,7 @@ public class DBService {
 		final Cliente cli2 = new Cliente("Flavio Solci", "flaviosolci@gmail.com", "123456", TipoCliente.PESSOA_JURIDICA,
 				passwordEncoder.encode("122334556"));
 		cli2.getTelefones().addAll(Arrays.asList("434434", "55555"));
+		cli2.addPerfil(Perfil.ADMIN);
 
 		final Endereco e1 = new Endereco("Rua Flores", "300", "Jardim", "3822544", c1);
 		final Endereco e2 = new Endereco("Avenida Matos", "105", "Centro", "1254", c2);

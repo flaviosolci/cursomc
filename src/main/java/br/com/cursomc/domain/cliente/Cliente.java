@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,10 +21,13 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.cursomc.domain.user.Perfil;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -33,7 +38,6 @@ import lombok.ToString;
  */
 @Entity
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cliente implements Serializable {
 
@@ -62,6 +66,18 @@ public class Cliente implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	@Setter(value = AccessLevel.NONE)
+	@Getter(value = AccessLevel.NONE)
+	private final Set<Integer> perfis = new HashSet<>();
+
+	/**
+	 * Construtor padrão. Obrigatório
+	 */
+	public Cliente() {
+		addPerfil(Perfil.CLIENTE);
+	}
 
 	/**
 	 * Senha do cliente
@@ -88,9 +104,8 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = tipo == null ? null : tipo.getCodigo();
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
-
-
 
 	/**
 	 * Define o tipo do cliente
@@ -111,6 +126,20 @@ public class Cliente implements Serializable {
 		}
 		return TipoCliente.toTipoCliente(tipo);
 
+	}
+
+	/**
+	 * @return Retorna todos os perfis
+	 */
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(perfil -> Perfil.toPerfil(perfil)).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param perfil Adiciona um novo perfil ao clinte
+	 */
+	public void addPerfil(final Perfil perfil) {
+		perfis.add(perfil.getCodigo());
 	}
 
 }
