@@ -17,13 +17,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.cursomc.dto.cliente.ClienteNewDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Modelo para clientes
@@ -64,42 +64,33 @@ public class Cliente implements Serializable {
 	private Set<String> telefones = new HashSet<>();
 
 	/**
+	 * Senha do cliente
+	 *
+	 * @see https://github.com/spring-projects/spring-security/issues/3238
+	 */
+	@JsonIgnore
+	@ToString.Exclude
+	private String senha;
+
+	/**
 	 * Construtor
 	 *
 	 * @param nome      Nome do cliente
 	 * @param email     Email do cliente
 	 * @param cpfOuCnpj Dependendo do tipo do cliente pode ter CPF ou CNPJ
 	 * @param tipo      Tipo do cliente.
+	 * @param senha     senha do cliente
 	 */
 	public Cliente(@NonNull final String nome, @NonNull final String email, @NonNull final String cpfOuCnpj,
-			final TipoCliente tipo) {
+			final TipoCliente tipo, final String senha) {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = tipo == null ? null : tipo.getCodigo();
+		this.senha = senha;
 	}
 
-	/**
-	 * Construtor com parâmetro do objeto dto
-	 *
-	 * @param clienteNewDTO dto para ser transformado em cliente
-	 */
-	public Cliente(final ClienteNewDTO clienteNewDTO) {
-		this(clienteNewDTO.getNome(), clienteNewDTO.getEmail(), clienteNewDTO.getCpfOuCnpj(),
-				TipoCliente.toTipoCliente(clienteNewDTO.getTipo()));
 
-		getEnderecos().add(new Endereco(clienteNewDTO.getLogradouro(), clienteNewDTO.getNumero(),
-				clienteNewDTO.getBairro(), clienteNewDTO.getBairro(), new Cidade(clienteNewDTO.getCidadeId())));
-		getTelefones().add(clienteNewDTO.getTelefone1());
-
-		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
-			getTelefones().add(clienteNewDTO.getTelefone2());
-		}
-
-		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
-			getTelefones().add(clienteNewDTO.getTelefone3());
-		}
-	}
 
 	/**
 	 * Define o tipo do cliente

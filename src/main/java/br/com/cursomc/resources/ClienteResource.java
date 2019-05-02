@@ -62,7 +62,7 @@ public class ClienteResource {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Void> insert(@Valid @RequestBody final ClienteNewDTO clienteNewDTO) {
-		final Cliente cliente = new Cliente(clienteNewDTO);
+		final Cliente cliente = service.fromDTO(clienteNewDTO);
 		final Cliente clienteSalvo = service.insert(cliente);
 		final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(clienteSalvo.getId()).toUri();

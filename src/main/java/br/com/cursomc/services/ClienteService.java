@@ -2,16 +2,21 @@ package br.com.cursomc.services;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.cursomc.domain.cliente.Cidade;
 import br.com.cursomc.domain.cliente.Cliente;
 import br.com.cursomc.domain.cliente.Endereco;
+import br.com.cursomc.domain.cliente.TipoCliente;
 import br.com.cursomc.dto.cliente.ClienteDTO;
+import br.com.cursomc.dto.cliente.ClienteNewDTO;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.EnderecoRepository;
 import br.com.cursomc.services.exception.DataIntegrityException;
@@ -30,8 +35,13 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
 
+	/** Salva os endereços do cliente novo */
 	@Autowired
 	private EnderecoRepository endrecoRepo;
+
+	/** Encripta a senha do cliente */
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	/**
 	 * Busca um cliente pelo ID
@@ -106,6 +116,35 @@ public class ClienteService {
 			final Direction direction) {
 		final PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
 		return repository.findAll(pageRequest);
+	}
+
+	// =============================
+	// == DTO
+	// =============================
+
+	/**
+	 * Construtor com parâmetro do objeto dto
+	 *
+	 * @param clienteNewDTO dto para ser transformado em cliente
+	 */
+	public Cliente fromDTO(final ClienteNewDTO clienteNewDTO) {
+		final Cliente cliente = new Cliente(clienteNewDTO.getNome(), clienteNewDTO.getEmail(),
+				clienteNewDTO.getCpfOuCnpj(), TipoCliente.toTipoCliente(clienteNewDTO.getTipo()),
+				passwordEncoder.encode(clienteNewDTO.getSenha()));
+
+		cliente.getEnderecos().add(new Endereco(clienteNewDTO.getLogradouro(), clienteNewDTO.getNumero(),
+				clienteNewDTO.getBairro(), clienteNewDTO.getBairro(), new Cidade(clienteNewDTO.getCidadeId())));
+		cliente.getTelefones().add(clienteNewDTO.getTelefone1());
+
+		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
+			cliente.getTelefones().add(clienteNewDTO.getTelefone2());
+		}
+
+		if (StringUtils.isNotEmpty(clienteNewDTO.getTelefone2())) {
+			cliente.getTelefones().add(clienteNewDTO.getTelefone3());
+		}
+
+		return cliente;
 	}
 
 	// =============================

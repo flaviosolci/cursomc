@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.cliente.Cidade;
@@ -85,6 +86,10 @@ public class DBService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepo;
 
+	/** Encripta a senha do cliente */
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	/**
 	 * Cria entradas dummies no DB
 	 *
@@ -138,11 +143,12 @@ public class DBService {
 		estadoRepo.saveAll(Arrays.asList(est1, est2));
 		cidadeRepo.saveAll(Arrays.asList(c1, c2, c3));
 
-		final Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "123456", TipoCliente.PESSOA_FISICA);
+		final Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "123456", TipoCliente.PESSOA_FISICA,
+				passwordEncoder.encode("122334556"));
 		cli1.getTelefones().addAll(Arrays.asList("455412657", "454554"));
 
-		final Cliente cli2 = new Cliente("Flavio Solci", "flaviosolci@gmail.com", "123456",
-				TipoCliente.PESSOA_JURIDICA);
+		final Cliente cli2 = new Cliente("Flavio Solci", "flaviosolci@gmail.com", "123456", TipoCliente.PESSOA_JURIDICA,
+				passwordEncoder.encode("122334556"));
 		cli2.getTelefones().addAll(Arrays.asList("434434", "55555"));
 
 		final Endereco e1 = new Endereco("Rua Flores", "300", "Jardim", "3822544", c1);

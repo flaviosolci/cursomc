@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import br.com.cursomc.services.validation.ClienteInsert;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
@@ -44,6 +45,11 @@ public class ClienteNewDTO implements Serializable {
 	/** Tipo do cliente. */
 	@Min(value = 1, message = "Tipo do Cliente é obrigatório")
 	private Integer tipo;
+
+	/** Senha do cliente */
+	@NotEmpty(message = "Senha do Cliente é obrigatório")
+	@ToString.Exclude
+	private String senha;
 
 	// =============================
 	// == ENDEREÇO
