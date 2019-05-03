@@ -4,8 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.cursomc.domain.cliente.Cliente;
 import br.com.cursomc.domain.pagamento.EstadoPagamento;
 import br.com.cursomc.domain.pagamento.PagamentoComBoleto;
 import br.com.cursomc.domain.pedido.ItemPedido;
@@ -13,6 +17,8 @@ import br.com.cursomc.domain.pedido.Pedido;
 import br.com.cursomc.repositories.ItemPedidoRepository;
 import br.com.cursomc.repositories.PagamentoRepository;
 import br.com.cursomc.repositories.PedidoRepository;
+import br.com.cursomc.security.UserSpringSecurity;
+import br.com.cursomc.services.exception.AuthorizationException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
 import br.com.cursomc.services.mail.EmailService;
 import lombok.NonNull;
@@ -60,8 +66,15 @@ public class PedidoService {
 	 * @return Pedido ou lança uma exceção se não encontrado
 	 */
 	public Pedido find(final Integer id) {
-		return repository.findById(id)
+		final UserSpringSecurity user = UserService.authenticate();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		final Cliente cliente = clienteService.find(user.getId());
+
+		return repository.findByIdAndClienteOrderByInstanteDesc(id, cliente)
 				.orElseThrow(() -> new ObjectNotFoundException("Pedido com o ID " + id + " não existe!"));
+
 	}
 
 	/**
@@ -97,4 +110,24 @@ public class PedidoService {
 
 	}
 
+	/**
+	 * Encontra todas os Pedidos com paginação
+	 *
+	 * @param page         Qual página pegar (inicia em zero)
+	 * @param linesPerPage quantos registros por pagina
+	 * @param orderBy      Ordenação
+	 * @param direction    Direção da ordem
+	 * @return Página com Pedidos
+	 */
+	public Page<Pedido> findWithPage(final Integer page, final Integer linesPerPage, final String orderBy,
+			final Direction direction) {
+		final UserSpringSecurity user = UserService.authenticate();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		final Cliente cliente = clienteService.find(user.getId());
+
+		final PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
+		return repository.findByCliente(cliente, pageRequest);
+	}
 }

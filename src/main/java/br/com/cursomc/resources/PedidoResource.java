@@ -5,12 +5,15 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -56,5 +59,26 @@ public class PedidoResource {
 				.buildAndExpand(pedidoSalvo.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 
+	}
+
+	/**
+	 * Procura um Pedido no BD usando paginação e retorna caso tenha encontrado
+	 *
+	 * @param page         Qual página pegar (inicia em zero)
+	 * @param linesPerPage quantos registros por pagina
+	 * @param orderBy      Ordenação
+	 * @param direction    Direção da ordem
+	 *
+	 * @return Lista de pedidos paginados
+	 */
+	@GetMapping()
+	public ResponseEntity<Page<Pedido>> findWithPage(
+			@RequestParam(value = "page", defaultValue = "0") final Integer page,
+			@RequestParam(name = "linesPerPage", defaultValue = "24") final Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "instante") final String orderBy,
+			@RequestParam(value = "direction", defaultValue = "DESC") final String direction) {
+
+		final Page<Pedido> pedido = service.findWithPage(page, linesPerPage, orderBy, Direction.valueOf(direction));
+		return ResponseEntity.ok(pedido);
 	}
 }

@@ -165,7 +165,7 @@ public class DBService {
 
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		final Pedido ped1 = new Pedido(sdf.parse("30/09/2017 10:32"), cli1, e1);
-		final Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), cli1, e2);
+		final Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), cli2, e2);
 
 		final Pagamento pagto1 = new PagamentoComCartao(EstadoPagamento.QUITADO, ped1, 6);
 		final Pagamento pagto2 = new PagamentoComBoleto(EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"));
