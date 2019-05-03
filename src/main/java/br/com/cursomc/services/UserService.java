@@ -17,7 +17,7 @@ public class UserService {
 	/**
 	 * @return Usuário logado
 	 */
-	public static UserSpringSecurity authenticate() {
+	public static UserSpringSecurity authenticated() {
 		try {
 			return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		} catch (final Exception e) {

@@ -55,7 +55,7 @@ public class ClienteService {
 	public Cliente find(final Integer id) {
 		// O Cliente pode acessar apenas o seu cadastros.
 		// Exceto se o cliente tiver perfil de ADMIN
-		final UserSpringSecurity user = UserService.authenticate();
+		final UserSpringSecurity user = UserService.authenticated();
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado!");
 		}

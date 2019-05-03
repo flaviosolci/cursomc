@@ -66,7 +66,7 @@ public class PedidoService {
 	 * @return Pedido ou lança uma exceção se não encontrado
 	 */
 	public Pedido find(final Integer id) {
-		final UserSpringSecurity user = UserService.authenticate();
+		final UserSpringSecurity user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado!");
 		}
@@ -121,7 +121,7 @@ public class PedidoService {
 	 */
 	public Page<Pedido> findWithPage(final Integer page, final Integer linesPerPage, final String orderBy,
 			final Direction direction) {
-		final UserSpringSecurity user = UserService.authenticate();
+		final UserSpringSecurity user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado!");
 		}
