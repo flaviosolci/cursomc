@@ -44,4 +44,14 @@ public class UserSpringSecurity extends User {
 		return id;
 	}
 
+	/**
+	 * Verifica se o usuário logado possui um Perfil
+	 *
+	 * @param perfil Perfil a ser pesquisado
+	 * @return Verdadeiro se o usuário possui o perfil
+	 */
+	public boolean hasRole(final Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
+
 }

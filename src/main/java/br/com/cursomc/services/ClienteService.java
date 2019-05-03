@@ -15,10 +15,13 @@ import br.com.cursomc.domain.cliente.Cidade;
 import br.com.cursomc.domain.cliente.Cliente;
 import br.com.cursomc.domain.cliente.Endereco;
 import br.com.cursomc.domain.cliente.TipoCliente;
+import br.com.cursomc.domain.user.Perfil;
 import br.com.cursomc.dto.cliente.ClienteDTO;
 import br.com.cursomc.dto.cliente.ClienteNewDTO;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.EnderecoRepository;
+import br.com.cursomc.security.UserSpringSecurity;
+import br.com.cursomc.services.exception.AuthorizationException;
 import br.com.cursomc.services.exception.DataIntegrityException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
 
@@ -50,6 +53,13 @@ public class ClienteService {
 	 * @return Cliente ou lança uma exceção se não encontrado
 	 */
 	public Cliente find(final Integer id) {
+		// O Cliente pode acessar apenas o seu cadastros.
+		// Exceto se o cliente tiver perfil de ADMIN
+		final UserSpringSecurity user = UserService.authenticate();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+
 		return repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Cliente com o ID " + id + " não existe!"));
 	}
