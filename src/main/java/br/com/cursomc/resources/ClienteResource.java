@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.cursomc.domain.cliente.Cliente;
@@ -136,4 +137,16 @@ public class ClienteResource {
 		return ResponseEntity.ok(clientesDTO);
 	}
 
+	/**
+	 * Salva a foto de perfil do cliente
+	 *
+	 * @param file arquivo a ser salvo
+	 * @return Response com URI para a foto salva (201)
+	 */
+	@PostMapping(value = "/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") final MultipartFile file) {
+		final URI uploadProfilePicture = service.uploadProfilePicture(file);
+		return ResponseEntity.created(uploadProfilePicture).build();
+
+	}
 }

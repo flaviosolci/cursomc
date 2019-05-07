@@ -1,5 +1,6 @@
 package br.com.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cursomc.domain.cliente.Cidade;
 import br.com.cursomc.domain.cliente.Cliente;
@@ -21,6 +23,7 @@ import br.com.cursomc.dto.cliente.ClienteNewDTO;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.EnderecoRepository;
 import br.com.cursomc.security.UserSpringSecurity;
+import br.com.cursomc.services.amazon.S3Service;
 import br.com.cursomc.services.exception.AuthorizationException;
 import br.com.cursomc.services.exception.DataIntegrityException;
 import br.com.cursomc.services.exception.ObjectNotFoundException;
@@ -45,6 +48,10 @@ public class ClienteService {
 	/** Encripta a senha do cliente */
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
+	/** Envia um arquivo para s3 */
+	@Autowired
+	private S3Service s3Service;
 
 	/**
 	 * Busca um cliente pelo ID
@@ -155,6 +162,20 @@ public class ClienteService {
 		}
 
 		return cliente;
+	}
+
+	// =============================
+	// == S3
+	// =============================
+
+	/**
+	 * Envia a foto do usuário para o S3
+	 *
+	 * @param file Foto do cliente
+	 * @return URI aonde a foto foi salva
+	 */
+	public URI uploadProfilePicture(final MultipartFile file) {
+		return s3Service.uploadFile(file);
 	}
 
 	// =============================

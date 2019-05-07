@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" };
 
 	/** Páginas acessíveis somente POST */
-	private static final String[] PUBLIC_MATCHERS_POST = { "/clients/**" };
+	private static final String[] PUBLIC_MATCHERS_POST = { "/clientes", "/clientes/picture" };
 
 	/**
 	 * Configura acesso as páginas
